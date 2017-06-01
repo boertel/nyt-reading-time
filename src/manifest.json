@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "nyt reading time",
+    "version": "0.1",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.nytimes.com/*"
+            ],
+            "js": [
+                "nyt-reading-time.js"
+            ],
+            "run_at": "document_end"
+        }
+    ]
+}
+
