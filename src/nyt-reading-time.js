@@ -57,14 +57,15 @@ function loadingDots(node, text, delay) {
 var options = {
   debug: true,
   ui: true,
-  storageKey: "ratio"
+  storageKey: "ratio",
+  defaultRatio: 0.16,
 };
 
 // acceptable ratio: 0.16
 
 var Ratio = {
   get: function() {
-    return parseFloat(localStorage.getItem(options.storageKey), 10);
+    return parseFloat(localStorage.getItem(options.storageKey), 10) || options.defaultRatio;
   },
   add: function(value) {
     var ratio = this.get();
@@ -77,11 +78,20 @@ var Ratio = {
 
 var ratio = Ratio.get();
 
+const hostnames = {
+    'www.nytimes.com': '.StoryBodyCompanionColumn p',
+    'www.theguardian.com': '[itemprop="articleBody"] > p',
+}
+
 function getCount() {
-    var storyContent = [].slice.call(document.querySelectorAll(".StoryBodyCompanionColumn p"))
-    return storyContent.reduce(function (prev, current) {
-        return prev + current.textContent.split(' ').length;
-    }, 0)
+    const query = hostnames[window.location.hostname];
+    if (query) {
+        var storyContent = [].slice.call(document.querySelectorAll(query))
+        return storyContent.reduce(function (prev, current) {
+            return prev + current.textContent.split(' ').length;
+        }, 0)
+    }
+    return null;
 }
 
 var count = getCount();
