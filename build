@@ -1,0 +1,5 @@
+#!/bin/bash
+
+NAME="$(basename $(pwd))"
+
+cd src/ && web-ext build --overwrite-dest && web-ext sign --api-key="$FF_API_KEY" --api-secret="$FF_API_SECRET" --channel=unlisted
